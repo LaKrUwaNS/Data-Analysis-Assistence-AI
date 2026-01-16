@@ -1,0 +1,13 @@
+streamlit
+pandas
+numpy
+matplotlib
+seaborn
+langchain
+langchain-core
+langchain-community
+langchain-ollama
+langchain-text-splitters
+faiss-cpu
+pypdf
+ollama
