@@ -86,7 +86,7 @@ question = st.text_input("Enter an analytical question")
 if question and vectorstore:
     # Retrieve relevant documents
     retriever = vectorstore.as_retriever(search_kwargs={"k": 4})
-    docs = retriever.get_relevant_documents(question)
+    docs = retriever.invoke(question)
 
     # Combine document contents
     context = "\n\n".join([doc.page_content for doc in docs])

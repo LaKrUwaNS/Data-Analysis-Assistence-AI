@@ -1,5 +1,4 @@
-from langchain_community.llms import Ollama
-from langchain_community.embeddings import OllamaEmbeddings
+from langchain_ollama import OllamaLLM, OllamaEmbeddings
 import subprocess
 
 def check_ollama_model(model_name: str) -> bool:
@@ -17,14 +16,14 @@ def check_ollama_model(model_name: str) -> bool:
 
 def get_llm(model: str = "llama3.2"):
     """Get LLM instance. Falls back to alternative models if not available."""
-    fallback_models = ["llama3.2", "llama3", "gemma3:1b"]
+    fallback_models = ["llama3.2", "llama3.1:8b", "gemma3:1b"]
 
     for attempt_model in fallback_models:
         if check_ollama_model(attempt_model):
             if attempt_model != model:
                 print(f"⚠️  Model '{model}' not found. Using '{attempt_model}' instead.")
                 print(f"   To install the preferred model, run: ollama pull {model}")
-            return Ollama(
+            return OllamaLLM(
                 model=attempt_model,
                 temperature=0.1
             )
@@ -46,7 +45,7 @@ def get_embeddings(model: str = "nomic-embed-text"):
     for attempt_model in fallback_models:
         if check_ollama_model(attempt_model):
             if attempt_model != model:
-                print(f"⚠️  Using '{attempt_model}' for embeddings instead of '{model}'")
+                print(f"WARNING: Using '{attempt_model}' for embeddings instead of '{model}'")
             return OllamaEmbeddings(model=attempt_model)
 
     # If no models are found, provide instructions
